@@ -1,0 +1,1 @@
+savedcmd_/media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/main.mod := printf '%s\n'   main.o | awk '!x[$$0]++ { print("/media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/"$$0) }' > /media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/main.mod

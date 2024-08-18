@@ -1,0 +1,1 @@
+savedcmd_/media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/Module.symvers -T /media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/001hellow_world/modules.order -i Module.symvers -e 
