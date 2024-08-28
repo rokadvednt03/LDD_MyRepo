@@ -1,1 +1,0 @@
-savedcmd_/media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/005CharDriver_Yt/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/005CharDriver_Yt/Module.symvers -T /media/vedant/STORAGE/Linux/Workspace/LDD_Workspace/custom_driver/005CharDriver_Yt/modules.order -i Module.symvers -e 
