@@ -32,12 +32,16 @@ struct file_operations eeprom_pcd = {
 };
 
 static int __init charDriver_Init(void){
+	int ret ;
 	pr_info("Hello World\n");
-
 	/*
 	 * 1. Dynamic Allocation of device number. 
 	 */	
-	alloc_chrdev_region(&device_number,0,7,"PCD_DEVICE");
+	ret = alloc_chrdev_region(&device_number,0,7,"PCD_DEVICE");
+	if (ret < 0){
+		pr_err("Error While register device number!!\n") ;
+		goto out;
+	}
 	pr_info("Device number - <major>:<minor> = %d:%d",MAJOR(device_number),MINOR(device_number)) ;
 	/*
 	 * 2. Initialize the cdev_init structure with f_ops.
@@ -48,21 +52,43 @@ static int __init charDriver_Init(void){
 	/*
 	 * 3. Register a (cdev structure) with VFS. 
 	 */
-	cdev_add(&cdev_pcd,device_number,1);
-
+	ret = cdev_add(&cdev_pcd,device_number,1);
+	if(ret < 0){
+		pr_err("error while cdev_add!! \n") ;
+		goto unreg_chrdev ;
+	}
 	/* 
 	 * 4. Create device class under /sys/class/
 	 */
 	class_pcd = class_create("pcd_class") ;
-
+	if(IS_ERR(class_pcd)){
+		pr_err("Error while add class! \n") ;
+		ret = PTR_ERR(class_pcd) ;
+		goto cdev_del;
+	}
 	/*
 	 * populate the sysfs with device information. 
 	 */
 	device_pcd = device_create(class_pcd,NULL,device_number,NULL,"pcd") ;
-
+	if(IS_ERR(device_pcd)){
+		pr_err("Error while device add!! \n") ; 
+		ret = PTR_ERR(device_pcd) ;
+		goto class_dest;
+	}
 	pr_info("Module Init Successfully !!!!!! \n") ; 
 
 	return 0;
+
+class_dest:
+	class_destroy(class_pcd) ;
+cdev_del:
+	cdev_del(&cdev_pcd);
+unreg_chrdev:
+	unregister_chrdev_region(device_number,1);
+out: 
+	pr_info("Module insertion failed!! \n");
+	return ret ;
+
 }
 
 
